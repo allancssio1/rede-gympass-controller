@@ -1,15 +1,19 @@
-import {expect, describe, it} from 'vitest'
+import {expect, describe, it, beforeEach} from 'vitest'
 import { RegisterUseCase } from './register'
 import { compare } from 'bcryptjs'
 import { InMemoryUsersRepository } from '@/repositories/inMemory/inMemoryUsersRepository'
 import { UserAlreadyExistsError } from './errors/userAlreadyExistsError'
-import { register } from '@/http/controllers/register'
+
+let inMemoryUsersRepository : InMemoryUsersRepository
+let registerUseCase : RegisterUseCase
 
 describe('Register Use Case', () => {
-  it('Should hash user password upon registration', async () => {
-    const inMemoryUsersRepository = new InMemoryUsersRepository()
-    const registerUseCase = new RegisterUseCase(inMemoryUsersRepository)
+  beforeEach(() => {
+    inMemoryUsersRepository = new InMemoryUsersRepository()
+    registerUseCase = new RegisterUseCase(inMemoryUsersRepository)
+  })
 
+  it('Should hash user password upon registration', async () => {
     const {user} = await registerUseCase.execute({
       name: "User test",
       email: 'usertest@test.com',
@@ -22,9 +26,6 @@ describe('Register Use Case', () => {
   })
 
   it('Should do not possible register with email already exists', async () => {
-    const inMemoryUsersRepository = new InMemoryUsersRepository()
-    const registerUseCase = new RegisterUseCase(inMemoryUsersRepository)
-
     await registerUseCase.execute({
       name: "User test",
       email: 'usertest@test.com',
@@ -39,9 +40,6 @@ describe('Register Use Case', () => {
   })
 
   it('should be able to register', async () => {
-    const inMemoryUsersRepository = new InMemoryUsersRepository()
-    const registerUseCase = new RegisterUseCase(inMemoryUsersRepository)
-
     const {user} = await registerUseCase.execute({
       name: "User test",
       email: 'usertest@test.com',
