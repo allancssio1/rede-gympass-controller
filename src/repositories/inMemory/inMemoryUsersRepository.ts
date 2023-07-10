@@ -9,6 +9,10 @@ export class InMemoryUsersRepository implements UsersRepository {
     const user = this.itens.find(user => user.email === email)
     return user ? user : null
   }
+  async findUserByUserId(userId: string): Promise<User | null> {
+    const user = this.itens.find(user => user.id === userId)
+    return user ? user : null
+  }
   async create(data: Prisma.UserCreateInput): Promise<User> {
     const user = {
       id: "user",
