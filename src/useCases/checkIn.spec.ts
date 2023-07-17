@@ -19,4 +19,18 @@ describe('Register Check In', () => {
 
     expect(checkIn.id).toEqual(expect.any(String))
   })
+
+  it("Should not be able to check in two in the same day",async () => {
+    await checkInUseCase.execute({
+      gymId: "gym-01",
+      userId: "user-01"
+    })
+
+    await expect(() => {
+      checkInUseCase.execute({
+        gymId: "gym-01",
+        userId: "user-01"
+      })
+    }).rejects.toBeInstanceOf(Error)
+  })
 })
