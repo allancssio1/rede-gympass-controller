@@ -1,28 +1,40 @@
-import { InMemoryCheckiInsRepository } from "@/repositories/inMemory/inMemoruCheckInsRepository";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CheckInUseCase } from "./checkIn";
-import { string } from "zod";
+import { InMemoryGymsRepository } from "@/repositories/inMemory/inMemoryGymsRepository";
+import { InMemoryCheckiInsRepository } from "@/repositories/inMemory/inMemoryCheckInsRepository";
+import { Decimal } from "@prisma/client/runtime";
 
 let checkInRepository: InMemoryCheckiInsRepository
 let checkInUseCase: CheckInUseCase
+let gymsRepository: InMemoryGymsRepository
 
 describe('Register Check In', () => {
   beforeEach(() => {
     checkInRepository = new InMemoryCheckiInsRepository()
-    checkInUseCase = new CheckInUseCase(checkInRepository)
-
-    // mokking fake de datas.
-    vi.useFakeTimers()
+    gymsRepository = new InMemoryGymsRepository()
+    checkInUseCase = new CheckInUseCase(checkInRepository, gymsRepository)
+    gymsRepository.itens.push({
+      id: 'gym-01',
+      title: 'New life Gym',
+      description: '',
+      phone: '',
+      latitude: new Decimal(0),
+      longitude: new Decimal(0)
+    })
+    
+    vi.useFakeTimers()// mokking fake de datas.
   })
 
   afterEach(() => {
-    vi.useFakeTimers()
+    vi.useFakeTimers()// mokking fake de datas.
   }) 
 
   it("Should be able to register new check in", async () => {
     const {checkIn} = await checkInUseCase.execute({
       gymId: 'gym-01',
-      userId: 'user-01'
+      userId: 'user-01',
+      userLatitude: 0,
+      userLongitude: 0
     })
 
     expect(checkIn.id).toEqual(expect.any(String))
@@ -33,12 +45,16 @@ describe('Register Check In', () => {
     vi.setSystemTime(new Date(2022, 0, 10, 8, 0, 0))
     await checkInUseCase.execute({
       gymId: "gym-01",
-      userId: "user-01"
+      userId: "user-01",
+      userLatitude: 0,
+      userLongitude: 0
     })
 
     await expect(() => checkInUseCase.execute({
         gymId: "gym-01",
-        userId: "user-01"
+        userId: "user-01",
+        userLatitude: 0,
+        userLongitude: 0
     })
     ).rejects.toBeInstanceOf(Error)
   })
@@ -48,18 +64,20 @@ describe('Register Check In', () => {
     vi.setSystemTime(new Date(2022, 0, 10, 8, 0, 0))
     await checkInUseCase.execute({
       gymId: "gym-01",
-      userId: "user-01"
+      userId: "user-01",
+      userLatitude: 0,
+      userLongitude: 0
     })
 
     vi.setSystemTime(new Date(2022, 0, 11, 8, 0, 0))
 
     const {checkIn} = await checkInUseCase.execute({
       gymId: "gym-01",
-      userId: "user-01"
+      userId: "user-01",
+      userLatitude: 0,
+      userLongitude: 0
     })
 
     expect(checkIn.id).toEqual(expect.any(String))
-
-
   })
 })
