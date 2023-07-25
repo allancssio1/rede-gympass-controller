@@ -9,19 +9,28 @@ let checkInUseCase: CheckInUseCase
 let gymsRepository: InMemoryGymsRepository
 
 describe('Register Check In', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     checkInRepository = new InMemoryCheckiInsRepository()
     gymsRepository = new InMemoryGymsRepository()
     checkInUseCase = new CheckInUseCase(checkInRepository, gymsRepository)
-    gymsRepository.itens.push({
+    // gymsRepository.itens.push({
+    //   id: 'gym-01',
+    //   title: 'New life Gym',
+    //   description: '',
+    //   phone: '',
+    //   latitude: new Decimal(0),
+    //   longitude: new Decimal(0)
+    // })
+    
+    await gymsRepository.create({
       id: 'gym-01',
       title: 'New life Gym',
       description: '',
       phone: '',
-      latitude: new Decimal(0),
-      longitude: new Decimal(0)
+      latitude: 0,
+      longitude: 0
     })
-    
+
     vi.useFakeTimers()// mokking fake de datas.
   })
 
