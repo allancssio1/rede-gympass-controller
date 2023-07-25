@@ -3,6 +3,8 @@ import { CheckInUseCase } from "./checkIn";
 import { InMemoryGymsRepository } from "@/repositories/inMemory/inMemoryGymsRepository";
 import { InMemoryCheckiInsRepository } from "@/repositories/inMemory/inMemoryCheckInsRepository";
 import { Decimal } from "@prisma/client/runtime";
+import { MaxDistanceError } from "./errors/maxDistanceError";
+import { MaxNumberOfCheckInsError } from "./errors/maxNumberOfCheckInsError";
 
 let checkInRepository: InMemoryCheckiInsRepository
 let checkInUseCase: CheckInUseCase
@@ -13,14 +15,6 @@ describe('Register Check In', () => {
     checkInRepository = new InMemoryCheckiInsRepository()
     gymsRepository = new InMemoryGymsRepository()
     checkInUseCase = new CheckInUseCase(checkInRepository, gymsRepository)
-    // gymsRepository.itens.push({
-    //   id: 'gym-01',
-    //   title: 'New life Gym',
-    //   description: '',
-    //   phone: '',
-    //   latitude: new Decimal(0),
-    //   longitude: new Decimal(0)
-    // })
     
     await gymsRepository.create({
       id: 'gym-01',
@@ -65,7 +59,7 @@ describe('Register Check In', () => {
         userLatitude: 0,
         userLongitude: 0
     })
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(MaxNumberOfCheckInsError)
   })
 
   it("Should  be able to check in twice in different days",async () => {
@@ -105,7 +99,7 @@ describe('Register Check In', () => {
       userId: 'user-01',
       userLatitude: -3.8756179,
       userLongitude: -38.6078833
-    })).rejects.toBeInstanceOf(Error) 
+    })).rejects.toBeInstanceOf(MaxDistanceError) 
 
   })
 })
