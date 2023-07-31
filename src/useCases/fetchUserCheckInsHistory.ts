@@ -3,6 +3,7 @@ import { CheckIn } from '@prisma/client'
 
 interface FetchUserCheckInsHistoryRequest {
   userId: string
+  page?: number
 }
 interface FetchUserCheckInsHistoryResponse {
   checkIns: CheckIn[]
