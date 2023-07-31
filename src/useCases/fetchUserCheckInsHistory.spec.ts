@@ -38,4 +38,6 @@ describe('Fetch User Check-in History Use Case', () => {
       }),
     ])
   })
+
+  it('Should be able to fetch paginated check-in history', async () => {})
 })
