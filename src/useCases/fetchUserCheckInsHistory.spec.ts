@@ -50,7 +50,7 @@ describe('Fetch User Check-in History Use Case', () => {
 
     const { checkIns } = await fetchUserCheckInsHistoryUseCase.execute({
       userId: 'user-01',
-      page: 1,
+      page: 2,
     })
 
     expect(checkIns).toHaveLength(2)
