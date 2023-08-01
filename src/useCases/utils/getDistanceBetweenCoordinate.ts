@@ -2,7 +2,10 @@ export interface Coordinate {
   longitude: number
   latitude: number
 }
-export function getDistanceBetweenCoordinates(from : Coordinate, to: Coordinate) {
+export function getDistanceBetweenCoordinates(
+  from: Coordinate,
+  to: Coordinate,
+) {
   /**
    * calculo de distância naval para usar com mapas.
    */
