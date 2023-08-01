@@ -11,7 +11,7 @@ describe('Fetch User Check-in History Use Case', () => {
     searchGymsUseCase = new SearchGymsUseCase(gymsRepository)
   })
   afterEach(() => {})
-  it('Should be find many check-ins on user id', async () => {
+  it('Should be find many gyms on title gym', async () => {
     await gymsRepository.create({
       title: 'new Life academia 1',
       description: null,
@@ -32,8 +32,7 @@ describe('Fetch User Check-in History Use Case', () => {
       page: 1,
     })
 
-    expect(gyms).toHaveLength(1) // o length do array tem esse tamanho.
-    // objectContaining é para aassegurar que o retorno tem um objeto que contenha esse dado passado.
+    expect(gyms).toHaveLength(1)
     expect(gyms).toEqual([
       expect.objectContaining({
         title: 'new Life academia 1',
@@ -41,7 +40,7 @@ describe('Fetch User Check-in History Use Case', () => {
     ])
   })
 
-  it('Should be able to fetch paginated check-in history', async () => {
+  it('Should be able to get many by paginated', async () => {
     for (let i = 1; i <= 22; i++) {
       await gymsRepository.create({
         title: `new Life academia ${i}`,
