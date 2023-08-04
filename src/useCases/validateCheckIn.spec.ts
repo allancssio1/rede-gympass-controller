@@ -2,6 +2,7 @@ import { InMemoryCheckiInsRepository } from '@/repositories/inMemory/inMemoryChe
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { ValidateCheckInUseCase } from './validateCheckIn'
 import { ResourceNotFoundError } from './errors/resourceNotFoundError'
+import { LateCheckInValidationError } from './errors/LateCheckInValidationError'
 
 let checkInsRepository: InMemoryCheckiInsRepository
 let validateCheckInUseCase: ValidateCheckInUseCase
@@ -56,6 +57,6 @@ describe('Validate Check In', () => {
         checkInId: checkIn.id,
         userId: 'user-01',
       }),
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(LateCheckInValidationError)
   })
 })
