@@ -20,6 +20,16 @@ export class InMemoryCheckiInsRepository implements CheckInsRepository {
     return checkIn
   }
 
+  async save(checkIn: CheckIn) {
+    const checkInIndex = this.itens.findIndex((item) => item.id === checkIn.id)
+
+    if (checkInIndex >= 0) {
+      this.itens[checkInIndex] = checkIn
+    }
+
+    return checkIn
+  }
+
   async findByUserIdOnDate(userId: string, date: Date) {
     // instalada lib dayjs para trabalhar com datas
     const startOfTheDay = dayjs(date).startOf('date') // startof retorna data YYYY-MM-DDT00:00:00
@@ -44,6 +54,12 @@ export class InMemoryCheckiInsRepository implements CheckInsRepository {
     return await this.itens
       .filter((item) => item.user_id === userId)
       .slice((page - 1) * 20, page * 20)
+  }
+
+  async findById(id: string) {
+    const checkIn = await this.itens.find((item) => item.id === id)
+
+    return checkIn ?? null
   }
 
   async countByUserId(userId: string) {
