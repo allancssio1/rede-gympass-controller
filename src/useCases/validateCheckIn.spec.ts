@@ -31,8 +31,8 @@ describe('Validate Check In', () => {
     expect(checkIn.validated_at).toEqual(expect.any(Date))
   })
 
-  it('Should not be able to validate an inexistent checke in', () => {
-    expect(() =>
+  it('Should not be able to validate an inexistent checke in', async () => {
+    await expect(() =>
       validateCheckInUseCase.execute({
         checkInId: 'inexistent-check-in-id',
         userId: 'user-not-existes',
@@ -52,7 +52,7 @@ describe('Validate Check In', () => {
 
     vi.advanceTimersByTime(twentyOneMinutesInMs)
 
-    expect(() =>
+    await expect(() =>
       validateCheckInUseCase.execute({
         checkInId: checkIn.id,
         userId: 'user-01',
