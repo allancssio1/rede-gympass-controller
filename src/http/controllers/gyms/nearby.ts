@@ -7,10 +7,10 @@ export async function fetchNearby(
   reply: FastifyReply,
 ) {
   const nearbyGymsBodySchema = z.object({
-    latitude: z.number().refine((value) => {
+    latitude: z.coerce.number().refine((value) => {
       return Math.abs(value) <= 90
     }),
-    longitude: z.number().refine((value) => Math.abs(value) <= 180),
+    longitude: z.coerce.number().refine((value) => Math.abs(value) <= 180),
   })
 
   const { longitude, latitude } = nearbyGymsBodySchema.parse(request.query)

@@ -5,10 +5,10 @@ import { verifyJWT } from '@/http/middlewares/verifyJWT'
 import { FastifyInstance } from 'fastify'
 
 export const gymRoutes = async (app: FastifyInstance) => {
-  app.addHook('onRequest', verifyJWT) // dqui para baixo todos precisam estar autenticados.
+  app.addHook('onRequest', verifyJWT) // daqui para baixo todos precisam estar autenticados.
 
   app.get('/gyms/search', search)
   app.get('/gyms/nearby', fetchNearby)
 
-  app.post('/gyms/create', create)
+  app.post('/gyms', create)
 }
