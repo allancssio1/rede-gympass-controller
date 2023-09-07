@@ -8,8 +8,8 @@ import { FastifyInstance } from 'fastify'
 export const checkInsRoutes = async (app: FastifyInstance) => {
   app.addHook('onRequest', verifyJWT) // dqui para baixo todos precisam estar autenticados.
 
-  app.get('/checkind/history', history)
-  app.get('/checkind/metrics', metrics)
+  app.get('/checkins/history', history)
+  app.get('/checkins/metrics', metrics)
 
   app.post('/gyms/:gymId/checkins', create)
   app.patch('/gyms/:checkInId/validate', validate)
