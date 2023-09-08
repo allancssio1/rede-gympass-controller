@@ -20,14 +20,16 @@ export async function authenticate(
     const { user } = await authenticateUseCase.execute({ email, password })
 
     const token = await reply.jwtSign(
-      {},
+      { role: user.role },
       {
         sub: user.id,
       },
     )
 
     const refreshToken = await reply.jwtSign(
-      {},
+      {
+        role: user.role,
+      },
       {
         sub: user.id,
         expiresIn: '7d', // o refreshToken expira em 7 dias, ai ele precisa fazer login
